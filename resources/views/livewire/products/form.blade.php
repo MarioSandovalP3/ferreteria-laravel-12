@@ -276,12 +276,20 @@
                                         @endforeach
                                     </select>
                                 @elseif($attr['type'] === 'number')
-                                    <input 
-                                        type="number"
-                                        wire:model="variant_attributes.{{ $attr['key'] }}"
-                                        placeholder="Ej: {{ $attr['key'] === 'piezas' ? '120' : ($attr['key'] === 'edad_recomendada' ? '3' : '100') }}"
-                                        class="w-full px-4 py-2.5 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500"
-                                        required>
+                                    <div x-data="moneyInput({{ $variant_attributes[$attr['key']] ?? 0 }}, '', 0)">
+                                        <input 
+                                            type="text"
+                                            x-model="formatted"
+                                            @input="updateValue($event)"
+                                            @click="forceEnd($el)"
+                                            @keydown.arrow-left.prevent
+                                            @keydown.arrow-right.prevent
+                                            data-field="variant_attributes.{{ $attr['key'] }}"
+                                            inputmode="numeric"
+                                            placeholder="Ej: {{ $attr['key'] === 'piezas' ? '120' : ($attr['key'] === 'edad_recomendada' ? '3' : '100') }}"
+                                            class="w-full px-4 py-2.5 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500"
+                                            required>
+                                    </div>
                                 @else
                                     @php
                                         $placeholder = match($attr['key']) {
@@ -378,11 +386,19 @@
                                         @endforeach
                                     </select>
                                 @elseif($attr['type'] === 'number')
-                                    <input 
-                                        type="number"
-                                        wire:model="variant_attributes.{{ $attr['key'] }}"
-                                        placeholder="Ej: {{ $attr['key'] === 'piezas' ? '120 piezas' : '10' }}"
-                                        class="w-full px-4 py-2.5 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500">
+                                    <div x-data="moneyInput({{ $variant_attributes[$attr['key']] ?? 0 }}, '', 0)">
+                                        <input 
+                                            type="text"
+                                            x-model="formatted"
+                                            @input="updateValue($event)"
+                                            @click="forceEnd($el)"
+                                            @keydown.arrow-left.prevent
+                                            @keydown.arrow-right.prevent
+                                            data-field="variant_attributes.{{ $attr['key'] }}"
+                                            inputmode="numeric"
+                                            placeholder="Ej: {{ $attr['key'] === 'piezas' ? '120 piezas' : '10' }}"
+                                            class="w-full px-4 py-2.5 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500">
+                                    </div>
                                 @else
                                     @php
                                         $placeholder = match($attr['key']) {
@@ -629,16 +645,23 @@
                                     </div>
                                 </div>
                             </div>
+                        <div x-data="moneyInput({{ $price ?? 0 }}, '', 0)">
                             <flux:input 
-                                wire:model.live="price" 
-                                type="number" 
-                                step="0.01"
+                                x-model="formatted"
+                                @input="updateValue($event)"
+                                @click="forceEnd($el)"
+                                @keydown.arrow-left.prevent
+                                @keydown.arrow-right.prevent
+                                data-field="price"
+                                inputmode="numeric"
+                                label="{{ __('common.price') }}" 
                                 placeholder="Ej: 20.00"
                                 required
                             />
                             <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
                                 💵 {{ __('common.price_helper') }}
                             </p>
+                        </div>
                         </div>
 
                         {{-- Sale Price --}}
@@ -656,15 +679,22 @@
                                     </div>
                                 </div>
                             </div>
+                        <div x-data="moneyInput({{ $sale_price ?? 0 }}, '', 0)">
                             <flux:input 
-                                wire:model.live="sale_price" 
-                                type="number" 
-                                step="0.01"
+                                x-model="formatted"
+                                @input="updateValue($event)"
+                                @click="forceEnd($el)"
+                                @keydown.arrow-left.prevent
+                                @keydown.arrow-right.prevent
+                                data-field="sale_price"
+                                inputmode="numeric"
+                                label="{{ __('common.sale_price') }}" 
                                 placeholder="Ej: 15.00 (opcional)"
                             />
                             <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
                                 🏷️ {{ __('common.sale_price_helper') }}
                             </p>
+                        </div>
                         </div>
 
                         {{-- Compare at Price --}}
@@ -682,15 +712,22 @@
                                     </div>
                                 </div>
                             </div>
+                        <div x-data="moneyInput({{ $compare_at_price ?? 0 }}, '', 0)">
                             <flux:input 
-                                wire:model.live="compare_at_price" 
-                                type="number" 
-                                step="0.01"
+                                x-model="formatted"
+                                @input="updateValue($event)"
+                                @click="forceEnd($el)"
+                                @keydown.arrow-left.prevent
+                                @keydown.arrow-right.prevent
+                                data-field="compare_at_price"
+                                inputmode="numeric"
+                                label="{{ __('common.compare_at_price') }}" 
                                 placeholder="Ej: 25.00 (opcional)"
                             />
                             <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
                                 📊 {{ __('common.compare_at_price_helper') }}
                             </p>
+                        </div>
                         </div>
 
                         {{-- Cost --}}
@@ -708,15 +745,22 @@
                                     </div>
                                 </div>
                             </div>
+                        <div x-data="moneyInput({{ $cost ?? 0 }}, '', 0)">
                             <flux:input 
-                                wire:model="cost" 
-                                type="number" 
-                                step="0.01"
+                                x-model="formatted"
+                                @input="updateValue($event)"
+                                @click="forceEnd($el)"
+                                @keydown.arrow-left.prevent
+                                @keydown.arrow-right.prevent
+                                data-field="cost"
+                                inputmode="numeric"
+                                label="{{ __('common.cost_per_item') }}" 
                                 placeholder="Ej: 10.00 (opcional)"
                             />
                             <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
                                 🔒 {{ __('common.cost_per_item_helper') }}
                             </p>
+                        </div>
                         </div>
                     </div>
 
@@ -871,11 +915,15 @@
                             />
                         </div>
 
-                        <div>
+                        <div x-data="moneyInput({{ $weight ?? 0 }}, '', 0)">
                             <flux:input 
-                                wire:model="weight" 
-                                type="number"
-                                step="0.01"
+                                x-model="formatted"
+                                @input="updateValue($event)"
+                                @click="forceEnd($el)"
+                                @keydown.arrow-left.prevent
+                                @keydown.arrow-right.prevent
+                                data-field="weight"
+                                inputmode="numeric"
                                 label="{{ __('common.weight_kg') }}" 
                                 placeholder="0.00"
                             />
@@ -897,31 +945,43 @@
                     <h3 class="text-lg font-semibold text-zinc-900 dark:text-white mb-4">{{ __('common.dimensions_shipping') }}</h3>
                     
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <div>
+                        <div x-data="moneyInput({{ $length ?? 0 }}, '', 0)">
                             <flux:input 
-                                wire:model="length" 
-                                type="number"
-                                step="0.01"
+                                x-model="formatted"
+                                @input="updateValue($event)"
+                                @click="forceEnd($el)"
+                                @keydown.arrow-left.prevent
+                                @keydown.arrow-right.prevent
+                                data-field="length"
+                                inputmode="numeric"
                                 label="{{ __('common.length_cm') }}" 
                                 placeholder="0.00"
                             />
                         </div>
 
-                        <div>
+                        <div x-data="moneyInput({{ $width ?? 0 }}, '', 0)">
                             <flux:input 
-                                wire:model="width" 
-                                type="number"
-                                step="0.01"
+                                x-model="formatted"
+                                @input="updateValue($event)"
+                                @click="forceEnd($el)"
+                                @keydown.arrow-left.prevent
+                                @keydown.arrow-right.prevent
+                                data-field="width"
+                                inputmode="numeric"
                                 label="{{ __('common.width_cm') }}" 
                                 placeholder="0.00"
                             />
                         </div>
 
-                        <div>
+                        <div x-data="moneyInput({{ $height ?? 0 }}, '', 0)">
                             <flux:input 
-                                wire:model="height" 
-                                type="number"
-                                step="0.01"
+                                x-model="formatted"
+                                @input="updateValue($event)"
+                                @click="forceEnd($el)"
+                                @keydown.arrow-left.prevent
+                                @keydown.arrow-right.prevent
+                                data-field="height"
+                                inputmode="numeric"
                                 label="{{ __('common.height_cm') }}" 
                                 placeholder="0.00"
                             />
