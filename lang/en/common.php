@@ -739,4 +739,7 @@ return [
     'cancel_quotation_message' => 'Are you sure you want to cancel this quotation? This action cannot be undone.',
     'quotation_cancel_error' => 'Error canceling quotation',
 
+    // Stock helpers
+    'stock_quantity_helper' => 'Current available units in inventory',
+    'low_stock_threshold_helper' => 'Alert when stock reaches this quantity',
 ];

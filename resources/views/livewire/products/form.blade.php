@@ -654,7 +654,6 @@
                                 @keydown.arrow-right.prevent
                                 data-field="price"
                                 inputmode="numeric"
-                                label="{{ __('common.price') }}" 
                                 placeholder="Ej: 20.00"
                                 required
                             />
@@ -688,7 +687,6 @@
                                 @keydown.arrow-right.prevent
                                 data-field="sale_price"
                                 inputmode="numeric"
-                                label="{{ __('common.sale_price') }}" 
                                 placeholder="Ej: 15.00 (opcional)"
                             />
                             <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
@@ -721,7 +719,6 @@
                                 @keydown.arrow-right.prevent
                                 data-field="compare_at_price"
                                 inputmode="numeric"
-                                label="{{ __('common.compare_at_price') }}" 
                                 placeholder="Ej: 25.00 (opcional)"
                             />
                             <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
@@ -754,7 +751,6 @@
                                 @keydown.arrow-right.prevent
                                 data-field="cost"
                                 inputmode="numeric"
-                                label="{{ __('common.cost_per_item') }}" 
                                 placeholder="Ej: 10.00 (opcional)"
                             />
                             <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
@@ -897,22 +893,42 @@
                     
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <div>
-                            <flux:input 
-                                wire:model="stock" 
-                                type="number"
-                                label="{{ __('common.stock_quantity') }}" 
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                {{ __('common.stock_quantity') }} <span class="text-red-500">*</span>
+                            </label>
+                            <input 
+                                type="number" 
+                                wire:model="stock"
+                                min="0"
+                                step="1"
+                                inputmode="numeric"
+                                pattern="[0-9]*"
+                                oninput="this.value = this.value.replace(/[^0-9]/g, '')"
                                 placeholder="0"
-                                required
-                            />
+                                class="w-full px-4 py-2.5 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500"
+                                required>
+                            <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                                💡 {{ __('common.stock_quantity_helper') }}
+                            </p>
                         </div>
 
                         <div>
-                            <flux:input 
-                                wire:model="low_stock_threshold" 
-                                type="number"
-                                label="{{ __('common.low_stock_threshold') }}" 
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                {{ __('common.low_stock_threshold') }}
+                            </label>
+                            <input 
+                                type="number" 
+                                wire:model="low_stock_threshold"
+                                min="0"
+                                step="1"
+                                inputmode="numeric"
+                                pattern="[0-9]*"
+                                oninput="this.value = this.value.replace(/[^0-9]/g, '')"
                                 placeholder="5"
-                            />
+                                class="w-full px-4 py-2.5 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500">
+                            <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                                ⚠️ {{ __('common.low_stock_threshold_helper') }}
+                            </p>
                         </div>
 
                         <div x-data="moneyInput({{ $weight ?? 0 }}, '', 0)">

@@ -741,4 +741,8 @@ return [
     'cancel_quotation_message' => '¿Está seguro de que desea cancelar esta cotización? Esta acción no se puede deshacer.',
     'quotation_cancel_error' => 'Error al cancelar la cotización',
 
+    // Stock helpers
+    'stock_quantity_helper' => 'Unidades disponibles actualmente en inventario',
+    'low_stock_threshold_helper' => 'Alerta cuando el stock alcance esta cantidad',
+
 ];
