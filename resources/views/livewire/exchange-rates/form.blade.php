@@ -82,16 +82,20 @@
                         </div>
 
                         {{-- Rate --}}
-                        <div class="md:col-span-2">
+                        <div class="md:col-span-2" x-data="moneyInput({{ $rate ?? 0 }}, '', 0)">
                             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                                 {{ __('common.exchange_rate_1_usd') }} <span class="text-red-500">*</span>
                             </label>
                             <div class="relative">
                                 <input 
-                                    type="number" 
-                                    wire:model.live="rate"
-                                    step="0.0001"
-                                    min="0.0001"
+                                    type="text" 
+                                    x-model="formatted"
+                                    @input="updateValue($event)"
+                                    @click="forceEnd($el)"
+                                    @keydown.arrow-left.prevent
+                                    @keydown.arrow-right.prevent
+                                    data-field="rate"
+                                    inputmode="numeric"
                                     placeholder="{{ __('common.example_rate') }}"
                                     class="w-full px-4 py-2.5 pr-20 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 text-lg font-semibold"
                                     required>
