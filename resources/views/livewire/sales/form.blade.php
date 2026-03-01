@@ -195,7 +195,7 @@
                                     </div>
 
                                     {{-- Unit Price --}}
-                                    <div class="col-span-2" x-data="moneyInput({{ $item['unit_price'] ?? 0 }}, 'items', {{ $index }})">
+                                    <div class="col-span-2" wire:key="unit-price-{{ $index }}-{{ $item['unit_price'] ?? 0 }}" x-data="moneyInput({{ $item['unit_price'] ?? 0 }}, 'items', {{ $index }})" wire:ignore>
                                         <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">{{ __('common.unit_price') }}</label>
                                         <input type="text" 
                                                x-model="formatted"
@@ -268,19 +268,44 @@
                 </div>
 
                 {{-- Totals --}}
-                <div class="p-4 bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg">
-                    <div class="grid grid-cols-2 gap-3 text-sm">
-                        <div class="text-right font-medium text-gray-700 dark:text-gray-300">{{ __('common.subtotal') }}:</div>
-                        <div class="text-right text-gray-900 dark:text-white">${{ number_format($subtotal, 2) }}</div>
+                <div class="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-zinc-800 dark:to-zinc-900 border border-gray-200 dark:border-zinc-700 rounded-xl shadow-sm overflow-hidden">
+                    <div class="p-6">
+                        <h4 class="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+                            <svg class="w-5 h-5 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+                            </svg>
+                            {{ __('common.order_summary') }}
+                        </h4>
                         
-                        <div class="text-right font-medium text-gray-700 dark:text-gray-300">{{ __('common.discount') }}:</div>
-                        <div class="text-right text-red-600 dark:text-red-400">-${{ number_format($discount_amount, 2) }}</div>
-                        
-                        <div class="text-right font-medium text-gray-700 dark:text-gray-300">{{ __('common.tax') }}:</div>
-                        <div class="text-right text-gray-900 dark:text-white">${{ number_format($tax_amount, 2) }}</div>
-                        
-                        <div class="text-right text-lg font-bold text-gray-900 dark:text-white">{{ __('common.total') }}:</div>
-                        <div class="text-right text-lg font-bold text-blue-600 dark:text-blue-400">${{ number_format($total, 2) }}</div>
+                        <div class="space-y-3">
+                            <!-- Subtotal -->
+                            <div class="flex justify-between items-center py-2 border-b border-gray-200 dark:border-zinc-600">
+                                <span class="text-sm font-medium text-gray-600 dark:text-gray-400">{{ __('common.subtotal') }}</span>
+                                <span class="text-sm font-semibold text-gray-900 dark:text-white">${{ number_format($subtotal, 2) }}</span>
+                            </div>
+                            
+                            <!-- Discount -->
+                            <div class="flex justify-between items-center py-2 border-b border-gray-200 dark:border-zinc-600">
+                                <span class="text-sm font-medium text-gray-600 dark:text-gray-400">{{ __('common.discount') }}</span>
+                                <span class="text-sm font-semibold {{ $discount_amount > 0 ? 'text-red-600 dark:text-red-400' : 'text-gray-500 dark:text-gray-400' }}">
+                                    {{ $discount_amount > 0 ? '-' : '' }}${{ number_format($discount_amount, 2) }}
+                                </span>
+                            </div>
+                            
+                            <!-- Tax -->
+                            <div class="flex justify-between items-center py-2 border-b border-gray-200 dark:border-zinc-600">
+                                <span class="text-sm font-medium text-gray-600 dark:text-gray-400">{{ __('common.tax') }}</span>
+                                <span class="text-sm font-semibold {{ $tax_amount > 0 ? 'text-gray-900 dark:text-white' : 'text-gray-500 dark:text-gray-400' }}">
+                                    ${{ number_format($tax_amount, 2) }}
+                                </span>
+                            </div>
+                            
+                            <!-- Total -->
+                            <div class="flex justify-between items-center py-3 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-lg px-4 -mx-4">
+                                <span class="text-base font-bold text-gray-900 dark:text-white">{{ __('common.total') }}</span>
+                                <span class="text-base font-bold text-blue-600 dark:text-blue-400">${{ number_format($total, 2) }}</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
 

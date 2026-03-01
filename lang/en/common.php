@@ -742,4 +742,6 @@ return [
     // Stock helpers
     'stock_quantity_helper' => 'Current available units in inventory',
     'low_stock_threshold_helper' => 'Alert when stock reaches this quantity',
+    'select' => 'Select',
+    'order_summary' => 'Order Summary',
 ];

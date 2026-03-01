@@ -26,6 +26,10 @@ document.addEventListener('alpine:init', () => {
             }).format(numValue);
         },
 
+        refresh(newValue) {
+            this.formatted = this.format(newValue.toString());
+        },
+
         updateValue(event) {
             // Aplicar formato
             this.formatted = this.format(event.target.value);

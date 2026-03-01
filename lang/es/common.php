@@ -744,5 +744,7 @@ return [
     // Stock helpers
     'stock_quantity_helper' => 'Unidades disponibles actualmente en inventario',
     'low_stock_threshold_helper' => 'Alerta cuando el stock alcance esta cantidad',
+    'select' => 'Seleccionar',
+    'order_summary' => 'Resumen del Pedido',
 
 ];
