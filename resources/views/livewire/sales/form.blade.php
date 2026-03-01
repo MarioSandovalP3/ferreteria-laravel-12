@@ -104,18 +104,32 @@
                 {{-- Global Tax/Discount --}}
                 <div class="p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
                     <div class="grid grid-cols-2 gap-4">
-                        <div>
+                        <div x-data="moneyInput({{ $global_tax_percent ?? 0 }}, '', 0)">
                             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                                 {{ __('common.global_tax_percent') }}
                             </label>
-                            <input wire:model.live="global_tax_percent" type="number" step="0.01" 
+                            <input type="text" 
+                                   x-model="formatted"
+                                   @input="updateValue($event)"
+                                   @click="forceEnd($el)"
+                                   @keydown.arrow-left.prevent
+                                   @keydown.arrow-right.prevent
+                                   data-field="global_tax_percent"
+                                   inputmode="numeric"
                                    class="w-full px-4 py-2.5 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500">
                         </div>
-                        <div>
+                        <div x-data="moneyInput({{ $global_discount_percent ?? 0 }}, '', 0)">
                             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                                 {{ __('common.global_discount_percent') }}
                             </label>
-                            <input wire:model.live="global_discount_percent" type="number" step="0.01" 
+                            <input type="text" 
+                                   x-model="formatted"
+                                   @input="updateValue($event)"
+                                   @click="forceEnd($el)"
+                                   @keydown.arrow-left.prevent
+                                   @keydown.arrow-right.prevent
+                                   data-field="global_discount_percent"
+                                   inputmode="numeric"
                                    class="w-full px-4 py-2.5 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500">
                         </div>
                     </div>
@@ -181,23 +195,44 @@
                                     </div>
 
                                     {{-- Unit Price --}}
-                                    <div class="col-span-2">
+                                    <div class="col-span-2" x-data="moneyInput({{ $item['unit_price'] ?? 0 }}, 'items', {{ $index }})">
                                         <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">{{ __('common.unit_price') }}</label>
-                                        <input wire:model.live="items.{{ $index }}.unit_price" type="number" step="0.01" 
+                                        <input type="text" 
+                                               x-model="formatted"
+                                               @input="updateValue($event)"
+                                               @click="forceEnd($el)"
+                                               @keydown.arrow-left.prevent
+                                               @keydown.arrow-right.prevent
+                                               data-field="unit_price"
+                                               inputmode="numeric"
                                                class="w-full px-2 py-2 text-sm bg-white dark:bg-zinc-900 border border-gray-300 dark:border-gray-600 rounded-lg">
                                     </div>
 
                                     {{-- Discount % --}}
-                                    <div class="col-span-1">
+                                    <div class="col-span-1" x-data="moneyInput({{ $item['discount_percent'] ?? 0 }}, 'items', {{ $index }})">
                                         <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">{{ __('common.disc') }}%</label>
-                                        <input wire:model.live="items.{{ $index }}.discount_percent" type="number" step="0.01" 
+                                        <input type="text" 
+                                               x-model="formatted"
+                                               @input="updateValue($event)"
+                                               @click="forceEnd($el)"
+                                               @keydown.arrow-left.prevent
+                                               @keydown.arrow-right.prevent
+                                               data-field="discount_percent"
+                                               inputmode="numeric"
                                                class="w-full px-2 py-2 text-sm bg-white dark:bg-zinc-900 border border-gray-300 dark:border-gray-600 rounded-lg">
                                     </div>
 
                                     {{-- Tax % --}}
-                                    <div class="col-span-1">
+                                    <div class="col-span-1" x-data="moneyInput({{ $item['tax_percent'] ?? 0 }}, 'items', {{ $index }})">
                                         <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">{{ __('common.tax') }}%</label>
-                                        <input wire:model.live="items.{{ $index }}.tax_percent" type="number" step="0.01" 
+                                        <input type="text" 
+                                               x-model="formatted"
+                                               @input="updateValue($event)"
+                                               @click="forceEnd($el)"
+                                               @keydown.arrow-left.prevent
+                                               @keydown.arrow-right.prevent
+                                               data-field="tax_percent"
+                                               inputmode="numeric"
                                                class="w-full px-2 py-2 text-sm bg-white dark:bg-zinc-900 border border-gray-300 dark:border-gray-600 rounded-lg">
                                     </div>
 
