@@ -293,14 +293,18 @@
                                 </div>
 
                                 {{-- Unit Price --}}
-                                <div class="col-span-6 md:col-span-2">
+                                <div class="col-span-6 md:col-span-2" x-data="moneyInput({{ $item['unit_price'] ?? 0 }}, 'items', {{ $index }})">
                                     <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
                                         {{ __('common.price') }} *
                                     </label>
-                                    <input type="number" 
-                                           wire:model.live="items.{{ $index }}.unit_price"
-                                           step="0.01"
-                                           min="0"
+                                    <input type="text" 
+                                           x-model="formatted"
+                                           @input="updateValue($event)"
+                                           @click="forceEnd($el)"
+                                           @keydown.arrow-left.prevent
+                                           @keydown.arrow-right.prevent
+                                           data-field="unit_price"
+                                           inputmode="numeric"
                                            @if(empty($item['product_id']) || $viewMode || $status === 'completed') disabled @endif
                                            class="w-full px-3 py-2 text-sm bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 @if(empty($item['product_id'])) opacity-50 cursor-not-allowed @endif @error('items.'.$index.'.unit_price') border-red-500 @enderror">
                                     @error('items.'.$index.'.unit_price')
@@ -309,15 +313,18 @@
                                 </div>
 
                                 {{-- Tax Rate --}}
-                                <div class="col-span-6 md:col-span-2">
+                                <div class="col-span-6 md:col-span-2" x-data="moneyInput({{ $item['tax_rate'] ?? 0 }}, 'items', {{ $index }})">
                                     <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
                                         Tax %
                                     </label>
-                                    <input type="number" 
-                                           wire:model.live="items.{{ $index }}.tax_rate"
-                                           step="0.01"
-                                           min="0"
-                                           max="100"
+                                    <input type="text" 
+                                           x-model="formatted"
+                                           @input="updateValue($event)"
+                                           @click="forceEnd($el)"
+                                           @keydown.arrow-left.prevent
+                                           @keydown.arrow-right.prevent
+                                           data-field="tax_rate"
+                                           inputmode="numeric"
                                            @if(empty($item['product_id']) || $viewMode || $status === 'completed') disabled @endif
                                            class="w-full px-3 py-2 text-sm bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 @if(empty($item['product_id'])) opacity-50 cursor-not-allowed @endif">
                                 </div>

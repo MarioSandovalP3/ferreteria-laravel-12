@@ -33,8 +33,11 @@ document.addEventListener('alpine:init', () => {
             // Valor limpio para enviar a Livewire (ej: 1250.50)
             let rawNumber = this.formatted.replace(/,/g, '');
             
+            // Determinar el campo basado en el input type o usar un campo por defecto
+            let fieldName = event.target.dataset.field || 'unit_price';
+            
             // Usamos la ruta dinámica que pasamos por parámetro
-            this.$wire.set(`${wirePath}.${index}.requested_price`, rawNumber);
+            this.$wire.set(`${wirePath}.${index}.${fieldName}`, rawNumber);
 
             // Forzar cursor al final
             this.$nextTick(() => {
