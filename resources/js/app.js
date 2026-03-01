@@ -36,8 +36,13 @@ document.addEventListener('alpine:init', () => {
             // Determinar el campo basado en el input type o usar un campo por defecto
             let fieldName = event.target.dataset.field || 'unit_price';
             
-            // Usamos la ruta dinámica que pasamos por parámetro
-            this.$wire.set(`${wirePath}.${index}.${fieldName}`, rawNumber);
+            // Si wirePath está vacío, es un campo simple (no array)
+            if (wirePath === '') {
+                this.$wire.set(fieldName, rawNumber);
+            } else {
+                // Es un campo en array
+                this.$wire.set(`${wirePath}.${index}.${fieldName}`, rawNumber);
+            }
 
             // Forzar cursor al final
             this.$nextTick(() => {

@@ -118,14 +118,18 @@
                     </div>
 
                     {{-- Amount --}}
-                    <div>
+                    <div x-data="moneyInput({{ $amount ?? 0 }}, '', 0)">
                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                             {{ __('common.amount') }} <span class="text-red-500">*</span>
                         </label>
-                        <input type="number" 
-                               wire:model="amount"
-                               step="0.01"
-                               min="0.01"
+                        <input type="text" 
+                               x-model="formatted"
+                               @input="updateValue($event)"
+                               @click="forceEnd($el)"
+                               @keydown.arrow-left.prevent
+                               @keydown.arrow-right.prevent
+                               data-field="amount"
+                               inputmode="numeric"
                                placeholder="0.00"
                                class="w-full px-4 py-2.5 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 @error('amount') border-red-500 @enderror"
                                @if($viewMode) disabled @endif
