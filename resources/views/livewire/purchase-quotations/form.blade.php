@@ -438,55 +438,26 @@
                                     </div>
 
                                     {{-- Requested Price --}}
-                                    <div class="col-span-6 md:col-span-2" x-data="{
-                                        formatted: '{{ number_format($item["requested_price"] ?? 0, 2, '.', ',') }}',
-                                        format(value) {
-                                            let num = value.replace(/[^0-9.]/g, '');
-                                            let parts = num.split('.');
-                                            parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-                                            if (parts.length > 1) {
-                                                parts[1] = parts[1].substring(0, 2);
-                                                return parts.join('.');
-                                            }
-                                            return parts[0];
-                                        },
-                                        updateValue(event) {
-                                            this.formatted = this.format(event.target.value);
-                                            let numValue = this.formatted.replace(/,/g, '');
-                                            $wire.set('items.{{ $index }}.requested_price', numValue || '0');
-                                        }
-                                    }">
+                                    <div class="col-span-6 md:col-span-2" 
+                                        x-data="moneyInput({{ $item['requested_price'] ?? 0 }}, 'items', {{ $index }})">
+                                        
                                         <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
                                             {{ __('common.requested_price') }}
                                         </label>
+
                                         <input type="text" 
-                                               x-model="formatted"
-                                               @input="updateValue($event)"
-                                               placeholder="0.00"
-                                               inputmode="decimal"
-                                               @if($viewMode || empty($item['product_id'])) disabled @endif
-                                               class="w-full px-3 py-2 text-sm bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 @if(empty($item['product_id'])) opacity-50 cursor-not-allowed @endif">
+                                            x-model="formatted"
+                                            @input="updateValue($event)"
+                                            @click="forceEnd($el)"
+                                            @keydown.arrow-left.prevent
+                                            @keydown.arrow-right.prevent
+                                            inputmode="numeric"
+                                            @if($viewMode || empty($item['product_id'])) disabled @endif
+                                            class="w-full px-3 py-2 text-sm bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 @if(empty($item['product_id'])) opacity-50 cursor-not-allowed @endif">
                                     </div>
 
                                     {{-- Quoted Price --}}
-                                    <div class="col-span-6 md:col-span-2" x-data="{
-                                        formatted: '{{ number_format($item["quoted_price"] ?? 0, 2, '.', ',') }}',
-                                        format(value) {
-                                            let num = value.replace(/[^0-9.]/g, '');
-                                            let parts = num.split('.');
-                                            parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-                                            if (parts.length > 1) {
-                                                parts[1] = parts[1].substring(0, 2);
-                                                return parts.join('.');
-                                            }
-                                            return parts[0];
-                                        },
-                                        updateValue(event) {
-                                            this.formatted = this.format(event.target.value);
-                                            let numValue = this.formatted.replace(/,/g, '');
-                                            $wire.set('items.{{ $index }}.quoted_price', numValue || '0');
-                                        }
-                                    }">
+                                    <div class="col-span-6 md:col-span-2" x-data="moneyInput({{ $item['quoted_price'] ?? 0 }}, 'items', {{ $index }})">
                                         <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
                                             {{ __('common.quoted_price') }}
                                             @if($status === 'approved')
@@ -496,6 +467,9 @@
                                         <input type="text" 
                                                x-model="formatted"
                                                @input="updateValue($event)"
+                                               @click="forceEnd($el)"
+                                            @keydown.arrow-left.prevent
+                                            @keydown.arrow-right.prevent
                                                placeholder="0.00"
                                                inputmode="decimal"
                                                @if($viewMode || $status !== 'approved') disabled @endif
@@ -506,26 +480,7 @@
                                     </div>
 
                                     {{-- Tax Rate (IVA) --}}
-                                    <div class="col-span-6 md:col-span-1" x-data="{
-                                        formatted: '{{ number_format($item["tax_rate"] ?? 0, 2, '.', ',') }}',
-                                        updateValue(event) {
-                                            let value = event.target.value.replace(/[^0-9.]/g, '');
-                                            let numValue = parseFloat(value) || 0;
-                                            if (numValue > 100) {
-                                                numValue = 100;
-                                                this.formatted = numValue.toFixed(2);
-                                            } else {
-                                                this.formatted = value;
-                                            }
-                                            $wire.set('items.{{ $index }}.tax_rate', numValue);
-                                        },
-                                        formatOnBlur(event) {
-                                            let numValue = parseFloat(event.target.value) || 0;
-                                            if (numValue > 100) numValue = 100;
-                                            this.formatted = numValue.toFixed(2);
-                                            $wire.set('items.{{ $index }}.tax_rate', numValue);
-                                        }
-                                    }">
+                                    <div class="col-span-6 md:col-span-2" x-data="moneyInput({{ $item['tax_rate'] ?? 0 }}, 'items', {{ $index }})">
                                         <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
                                             Tax %
                                         </label>
@@ -533,6 +488,9 @@
                                                x-model="formatted"
                                                @input="updateValue($event)"
                                                @blur="formatOnBlur($event)"
+                                               @click="forceEnd($el)"
+                                            @keydown.arrow-left.prevent
+                                            @keydown.arrow-right.prevent
                                                placeholder="0.00"
                                                inputmode="decimal"
                                                @if($viewMode || $status !== 'approved') disabled @endif
